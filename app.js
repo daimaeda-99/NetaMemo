@@ -117,8 +117,7 @@ function exportMarkdown() {
       out.push(item.body, "");
     }
   }
-  return out.join("
-");
+  return out.join("\n");
 }
 
 function exportPlainText() {
@@ -131,8 +130,7 @@ function exportPlainText() {
       out.push(item.body, "");
     }
   }
-  return out.join("
-");
+  return out.join("\n");
 }
 
 function exportHtml() {
