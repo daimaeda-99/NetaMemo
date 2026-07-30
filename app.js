@@ -1,4 +1,4 @@
-const STORAGE_KEY = "misocho-v2";
+const STORAGE_KEY = "misocho-v0";
 
 const CATEGORIES = [
   { key: "setting", label: "設定", emoji: "⚙️", hint: "世界・舞台・ルール" },
@@ -54,10 +54,6 @@ function formatDate(iso) {
   }).format(d);
 }
 
-function preview(text) {
-  const first = String(text || "").trim().split("\n").slice(0, 2).join(" ");
-  return first.slice(0, 90);
-}
 
 function categoryMeta(key) {
   return CATEGORIES.find((c) => c.key === key) || CATEGORIES[0];
@@ -118,11 +114,11 @@ function exportMarkdown() {
     if (!list.length) continue;
     out.push(`## ${c.label}`, "");
     for (const item of list) {
-      out.push(`- **${preview(item.body) || "（無題）"}**`);
-      out.push(`  ${item.body.replaceAll("\n", "\n  ")}`, "");
+      out.push(item.body, "");
     }
   }
-  return out.join("\n");
+  return out.join("
+");
 }
 
 function exportPlainText() {
@@ -132,22 +128,22 @@ function exportPlainText() {
     if (!list.length) continue;
     out.push(`［${c.label}］`);
     for (const item of list) {
-      out.push(`- ${preview(item.body) || "（無題）"}`);
       out.push(item.body, "");
     }
   }
-  return out.join("\n");
+  return out.join("
+");
 }
 
 function exportHtml() {
   const esc = escapeHtml;
-  let html = `<!doctype html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>みそ帖</title><style>body{font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;max-width:720px;margin:0 auto;padding:24px;line-height:1.65;color:#111827}h1{font-size:28px;margin:0 0 16px}h2{margin:28px 0 10px} .item{padding:14px 0;border-bottom:1px solid #e5e7eb}.title{font-weight:700}.body{white-space:pre-wrap;color:#374151;margin-top:6px}</style></head><body><h1>みそ帖</h1>`;
+  let html = `<!doctype html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>みそ帖</title><style>body{font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;max-width:720px;margin:0 auto;padding:24px;line-height:1.65;color:#111827}h1{font-size:28px;margin:0 0 16px}h2{margin:28px 0 10px} .item{padding:14px 0;border-bottom:1px solid #e5e7eb}.body{white-space:pre-wrap;color:#374151}</style></head><body><h1>みそ帖</h1>`;
   for (const c of CATEGORIES) {
     const list = state.items.filter((x) => x.category === c.key);
     if (!list.length) continue;
     html += `<h2>${esc(c.label)}</h2>`;
     for (const item of list) {
-      html += `<div class="item"><div class="title">${esc(preview(item.body) || "（無題）")}</div><div class="body">${esc(item.body)}</div></div>`;
+      html += `<div class="item"><div class="body">${esc(item.body)}</div></div>`;
     }
   }
   html += `</body></html>`;
@@ -187,8 +183,7 @@ function renderHome() {
     <div class="screen">
       <header class="hero">
         <div class="pill">みそ帖</div>
-        <h1>iPhoneで使う、<br>3分類の創作メモ。</h1>
-        <p>保存はこの端末だけ。設定 / キャラ / テーマ にどんどん積み上がります。</p>
+        <h1>みそ帖</h1>
       </header>
 
       <section class="stack">
@@ -207,14 +202,6 @@ function renderHome() {
         }).join("")}
       </section>
 
-      <section class="info-card">
-        <div class="info-title">使い方</div>
-        <ol>
-          <li>カテゴリを選ぶ</li>
-          <li>メモを書く</li>
-          <li>保存する</li>
-        </ol>
-      </section>
 
       <footer class="footer-actions">
         <button class="ghost-btn" id="exportMd">MD</button>
@@ -227,9 +214,9 @@ function renderHome() {
   app.querySelectorAll("[data-open]").forEach((btn) => {
     btn.addEventListener("click", () => openCategory(btn.dataset.open));
   });
-  document.getElementById("exportMd").addEventListener("click", () => download("misocho.md", exportMarkdown(), "text/markdown;charset=utf-8"));
-  document.getElementById("exportTxt").addEventListener("click", () => download("misocho.txt", exportPlainText()));
-  document.getElementById("exportHtml").addEventListener("click", () => download("misocho.html", exportHtml(), "text/html;charset=utf-8"));
+  document.getElementById("exportMd").addEventListener("click", () => download("neta-memo.md", exportMarkdown(), "text/markdown;charset=utf-8"));
+  document.getElementById("exportTxt").addEventListener("click", () => download("neta-memo.txt", exportPlainText()));
+  document.getElementById("exportHtml").addEventListener("click", () => download("neta-memo.html", exportHtml(), "text/html;charset=utf-8"));
 }
 
 function renderCategory() {

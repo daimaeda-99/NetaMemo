@@ -50,12 +50,6 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
   line-height: 1.12;
   letter-spacing: -0.04em;
 }
-.hero p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.6;
-}
 
 .stack, .note-list {
   display: grid;
@@ -115,22 +109,6 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
   line-height: 1.5;
 }
 
-.info-card {
-  margin-top: 12px;
-  padding: 16px;
-}
-.info-title {
-  font-size: 15px;
-  font-weight: 800;
-  margin-bottom: 10px;
-}
-.info-card ol {
-  margin: 0;
-  padding-left: 20px;
-  color: var(--muted);
-  line-height: 1.8;
-  font-size: 14px;
-}
 
 .footer-actions, .topbar-right, .compose-actions {
   display: flex;
@@ -230,12 +208,6 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .note-main {
   min-width: 0;
   flex: 1;
-}
-.note-title {
-  margin: 0 0 8px;
-  font-size: 16px;
-  font-weight: 800;
-  line-height: 1.4;
 }
 .note-body {
   margin: 0;
