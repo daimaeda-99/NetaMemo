@@ -54,6 +54,15 @@ function formatDate(iso) {
   }).format(d);
 }
 
+function preview(text) {
+  return String(text || "")
+    .trim()
+    .split("\n")
+    .slice(0, 2)
+    .join(" ")
+    .slice(0, 80);
+}
+
 
 function categoryMeta(key) {
   return CATEGORIES.find((c) => c.key === key) || CATEGORIES[0];
@@ -169,11 +178,26 @@ function copyText(text, label) {
 }
 
 function render() {
-  if (!state.current) {
-    renderHome();
-    return;
+  try {
+    if (!state.current) {
+      renderHome();
+      return;
+    }
+    renderCategory();
+  } catch (error) {
+    console.error(error);
+    app.innerHTML = `
+      <div class="screen">
+        <header class="hero">
+          <div class="pill">みそ帖</div>
+          <h1>読み込みエラー</h1>
+        </header>
+        <section class="empty-card">
+          <p style="margin:0;white-space:pre-wrap;line-height:1.7;">${escapeHtml(error?.message || String(error))}</p>
+        </section>
+      </div>
+    `;
   }
-  renderCategory();
 }
 
 function renderHome() {
